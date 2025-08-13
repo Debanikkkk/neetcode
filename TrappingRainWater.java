@@ -1,36 +1,36 @@
 public class TrappingRainWater {
-static int trappingRainWaterBF(int[] ar){
-    int totalvol=0;
-    int l=0;
-    int r=1;
+static int trappingRainWaterOPT(int[] height){
+    int left=0;
+    int right=height.length-1;
 
-    while(l!=ar.length-1){
-        if (r==ar.length-1 && ar[r]<ar[l]) {
-            l++;
-            r=l+1;
-        }
-        if (ar[r]>ar[l]) {
-            int diff=0;
-            if (l-r>1) {
-            for(int i=l; i<r; i++){
-                diff+=ar[i];
-            }    
+    int total=0;
+    int leftMax=height[0];
+    int rightMax=height[right];
+
+    while(left< right){
+
+        if(height[left]<height[right]){
+            leftMax=Math.max(leftMax, height[left]);
+            if (leftMax-height[left]>0) {
+                total+=leftMax-height[left];
             }
-            
-                        totalvol+=Math.min(ar[r],ar[l])*Math.abs(r-l-1)-diff;
-            l=r;
-            // r=l;
+            left++;
         }
-        r++;
+
+        else{
+            rightMax=Math.max(rightMax, height[right]);
+            if(rightMax-height[right]>0){
+                total+=rightMax-height[right];
+            }
+            right--;
+        }
     }
-
-
-    return totalvol;
+return total;
 }
     public static void main(String[] args) {
     int[] ar=new int[]{4,2,0,3,2,5};
 
-    System.out.println(trappingRainWaterBF(ar));
+    System.out.println(trappingRainWaterOPT(ar));
 
 
 }    
